@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  redux-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    ports:
+      - "8080:80"
+
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
