@@ -1,10 +1,10 @@
-import { useContext } from "react";
-import { AppContext } from "../contexts/AppContext";
+import React from "react";
+import { useCart } from "../contexts/CartContext";
 import useRenderCount from "../hooks/useRenderCount";
 
-const CartItem = ({ item }) => {
+const CartItem = React.memo(({ item }) => {
   const renderCount = useRenderCount();
-  const { dispatch } = useContext(AppContext);
+  const { cartDispatch } = useCart();
 
   return (
     <div className="cart-item">
@@ -18,7 +18,7 @@ const CartItem = ({ item }) => {
         <button
           className="qty-btn"
           onClick={() =>
-            dispatch({
+            cartDispatch({
               type: "UPDATE_QUANTITY",
               payload: { id: item.id, quantity: item.quantity - 1 },
             })
@@ -30,7 +30,7 @@ const CartItem = ({ item }) => {
         <button
           className="qty-btn"
           onClick={() =>
-            dispatch({
+            cartDispatch({
               type: "UPDATE_QUANTITY",
               payload: { id: item.id, quantity: item.quantity + 1 },
             })
@@ -41,7 +41,7 @@ const CartItem = ({ item }) => {
         <button
           className="remove-btn"
           onClick={() =>
-            dispatch({ type: "REMOVE_FROM_CART", payload: item.id })
+            cartDispatch({ type: "REMOVE_FROM_CART", payload: item.id })
           }
         >
           🗑️
@@ -49,6 +49,7 @@ const CartItem = ({ item }) => {
       </div>
     </div>
   );
-};
+});
 
+CartItem.displayName = "CartItem";
 export default CartItem;

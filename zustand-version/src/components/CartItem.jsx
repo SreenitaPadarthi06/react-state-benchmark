@@ -1,10 +1,10 @@
-import { useContext } from "react";
-import { AppContext } from "../contexts/AppContext";
+import useStore from "../store/useStore";
 import useRenderCount from "../hooks/useRenderCount";
 
 const CartItem = ({ item }) => {
   const renderCount = useRenderCount();
-  const { dispatch } = useContext(AppContext);
+  const updateQuantity = useStore((state) => state.updateQuantity);
+  const removeFromCart = useStore((state) => state.removeFromCart);
 
   return (
     <div className="cart-item">
@@ -17,32 +17,20 @@ const CartItem = ({ item }) => {
       <div className="cart-item-controls">
         <button
           className="qty-btn"
-          onClick={() =>
-            dispatch({
-              type: "UPDATE_QUANTITY",
-              payload: { id: item.id, quantity: item.quantity - 1 },
-            })
-          }
+          onClick={() => updateQuantity(item.id, item.quantity - 1)}
         >
           −
         </button>
         <span className="qty-value">{item.quantity}</span>
         <button
           className="qty-btn"
-          onClick={() =>
-            dispatch({
-              type: "UPDATE_QUANTITY",
-              payload: { id: item.id, quantity: item.quantity + 1 },
-            })
-          }
+          onClick={() => updateQuantity(item.id, item.quantity + 1)}
         >
           +
         </button>
         <button
           className="remove-btn"
-          onClick={() =>
-            dispatch({ type: "REMOVE_FROM_CART", payload: item.id })
-          }
+          onClick={() => removeFromCart(item.id)}
         >
           🗑️
         </button>

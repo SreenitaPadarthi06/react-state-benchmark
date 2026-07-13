@@ -1,32 +1,9 @@
-import { useContext, useEffect } from "react";
-import { AppContext } from "./contexts/AppContext";
 import Header from "./components/Header";
 import ProductListPage from "./components/ProductListPage";
 import CartSidebar from "./components/CartSidebar";
+import Notification from "./components/Notification";
 import useRenderCount from "./hooks/useRenderCount";
 import "./App.css";
-
-function Notification() {
-  const { state, dispatch } = useContext(AppContext);
-  const { notification } = state;
-
-  useEffect(() => {
-    if (notification.id) {
-      const timer = setTimeout(() => {
-        dispatch({ type: "CLEAR_NOTIFICATION" });
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [notification.id, dispatch]);
-
-  if (!notification.message) return null;
-
-  return (
-    <div className={`notification ${notification.type}`}>
-      {notification.message}
-    </div>
-  );
-}
 
 function App() {
   const renderCount = useRenderCount();
